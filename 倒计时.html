@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <h1>放假日：<span id="his"></span></h1>
+    
+</body>
+<script src="倒计时.js"></script>
+<script>
+    // seconds = 605
+    // setInterval(function(){
+    //     seconds--
+    //     var h = Math.floor(seconds / 3600) 
+    //     //console.log("h:"+h)
+    //     var i = Math.floor(seconds / 60)
+    //     //console.log("i:"+i)
+    //     var s = Math.floor(seconds % 60)
+    //     //console.log("s:"+s)
+    //     var str = h + ":" + i + ":" + s
+    //     document.getElementById("his").innerText = str
+    // },1000)
+
+
+
+
+    var xhr = new XMLHttpRequest()
+
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState==4 && xhr.status==200){
+            var json_str = xhr.responseText
+            //console.log(json_str)
+            var obj = JSON.parse(json_str)
+            //console.log(obj)
+            var seconds = obj.data.seconds
+            
+            setInterval(function(){
+                seconds--
+                //console.log(seconds)
+                var s = getDate(seconds)
+                //console.log(s)
+                document.getElementById("his").innerText = s
+            },1000)
+        }
+    }
+    xhr.open('get','倒计时.php')
+    xhr.send()
+</script>
+</html>

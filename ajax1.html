@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 320px;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn">Ajax添加一条</button>
+    <div class="box"></div>
+</body>
+<script>
+    var oBtn = document.getElementById('btn')
+    oBtn.onclick = function () {
+        var xhr = new XMLHttpRequest()
+        xhr.open('GET', 'api.php');
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var data = xhr.responseText;
+                    var jsonResponse = JSON.parse(data);
+                    var op = document.createElement('p');
+                    var ot = document.createTextNode('商品名称:' + jsonResponse["goods_name"] + '价格:' + jsonResponse["shop_price"])
+                    op.appendChild(ot)
+                    document.querySelector(".box").append(op)
+                } else {
+                    alert('失败')
+                }
+            }
+        }
+    }
+</script>
+
+</html>

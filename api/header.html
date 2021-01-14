@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<h1></h1>
+<input type="button" value="发送get_ajax请求" id='btnAjax'>
+<script type="text/javascript">
+    document.querySelector('#btnAjax').onclick = function () {
+        var ajaxObj = new XMLHttpRequest();
+        ajaxObj.open('get', 'header.php');
+        ajaxObj.send();
+        ajaxObj.onreadystatechange = function () {
+            if (ajaxObj.readyState == 4 && ajaxObj.status == 200) {
+                console.log('数据返回成功');
+                console.log(ajaxObj.responseText);
+                document.querySelector('h1').innerHTML = ajaxObj.responseText;
+            }
+        }
+    }
+</script>
+</body>
+</html>

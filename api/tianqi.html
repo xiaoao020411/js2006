@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf8">
+    <title>挂件的测试</title>
+     <script src="jquery-3.5.1.min.js"></script>
+</head>
+<body>
+    <form action="#">
+    <table>
+        <tr>
+            <td>城市</td>
+            <td><input id="cheng" type="text" value=""></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="button" value="查询" onclick="cha()"></td>
+        </tr>
+    </table>
+    </form>
+    <div id="guajian" style="display:none">
+        城市:<span id="city"></span><br>
+        空气质量指数:<span  id="kongqi"></span><br>
+        当前温度:<span  id="wendu"></span><br>
+        天气质量:<span  id="ganmao"></span><br>
+        <hr/>
+    </div>
+        
+    <div id="guajian_div"></div>
+
+</body>
+<script>
+function cha(){
+    var city=$("#cheng").val();
+    $.ajax({
+      type: 'GET',
+      url: "tianqi.php",
+      data: {city:city},
+      datatype: "json",        //"xml", "html", "script", "json", "jsonp", "text".
+      success: function(msg){
+              var data=eval("("+msg+")");
+              $.each(data, function(key, val) {
+                 if (Object.prototype.toString.call(val) === '[object Object]'){    
+                      var j_city=val.city;
+                      var j_kongqi =val.aqi;
+                      var j_wendu =val.wendu;
+                      var j_ganmao =val.ganmao;
+                      $("#city").text(j_city);
+                      $("#kongqi").text(j_kongqi);
+                      $("#wendu").text(j_wendu);
+                      $("#ganmao").text(j_ganmao);
+                      $("#guajian").show();
+                      $.each(val, function(key1, val1) {
+                          var z_date =val1.date;
+                          var z_fl =val1.fl;
+                          var z_fx =val1.fx;
+                          var z_high =val1.high;
+                          var z_low =val1.low;
+                          var z_type =val1.type;
+                          if(Object.prototype.toString.call(val1) === '[object Array]'){
+                              for(var i=0;i<val1.length;i++){        
+                                   var m_date=val1[i].date;
+                                   var m_high=val1[i].high;
+                                   var m_fengli=val1[i].fengli;
+                                   var m_low=val1[i].low;
+                                   var m_fengxiang=val1[i].fengxiang;
+                                   var m_type=val1[i].type;
+                                   if (i==0) {
+                                       $('#guajian_div').empty();
+                                   }
+                                   $('#guajian_div').append("<div>日期："+m_date+"<br/>最高温度："+m_high+"<br/>最低温度："+m_low+"<br/>天气："+m_type+"<br/>风力:"+m_fengli+"<br/>风向："+m_fengxiang+"</div> <hr/>");
+                              } 
+                          }
+                      });
+                  }
+              });
+      }
+    });
+}
+
+</script>
+</html>

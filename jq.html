@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+   <a href="" class="as">AAA</a>
+   <a href="" class="as">BBB</a>
+   <a href="" class="as">CCC</a>
+   <a href="" class="as">DDD</a>
+   <button id="btn1">BTN</button>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script>
+        var node = document.getElementById("btn1")
+        node.addEventListener("click",function(){
+            document.getElementsByTagName("a")[1].remove
+        })
+    </script>
+</body>
+
+</html>
